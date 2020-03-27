@@ -1,25 +1,21 @@
-import React, { Component } from "react";
+import React from "react";
 import { Card, CardImg, CardText, CardTitle } from "reactstrap";
 
-class CampsiteInfo extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
 
-  renderCampsite(campsite) {
-    return (
-      <div className="col-md-5 m-1">
-        <Card>
-          <CardImg top src={campsite.image} alt={campsite.name} />
-          <CardTitle>{campsite.name}</CardTitle>
-          <CardText>{campsite.description}</CardText>
-        </Card>
-      </div>
-    );
-  }
 
-  renderComments(comments) {
+ function RenderCampsite({campsite}) {
+  return (
+    <div className="col-md-5 m-1">
+      <Card>
+        <CardImg top src={campsite.image} alt={campsite.name} />
+        <CardTitle>{campsite.name}</CardTitle>
+        <CardText>{campsite.description}</CardText>
+      </Card>
+    </div>
+  );
+}
+
+ function RenderComments({comments}) {
     if (comments) {
       return (
         <div className="col-md-5 m-1">
@@ -40,23 +36,22 @@ class CampsiteInfo extends Component {
         </div>
       );
     }
-    return <div></div>;
+    return <div />;
   }
 
-  render() {
-    if (this.props.campsite) {
+  function CampsiteInfo(props) {
+    if (props.campsite) {
       return (
         <div className="container">
-                <div className="row">
-          {this.renderCampsite(this.props.campsite)}
-          {this.renderComments(this.props.campsite.comments)}
-        </div>
+          <div className="row">
+            <RenderCampsite campsite= {props.campsite} />
+            <RenderComments comments={props.campsite.comments} />
+          </div>
         </div>
 
       );
     }
-    return <div></div>;
-  }
+    return <div />;
 }
 
 export default CampsiteInfo;

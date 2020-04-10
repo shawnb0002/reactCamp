@@ -3,6 +3,7 @@ import { Col, Card, CardImg, CardText, Breadcrumb, BreadcrumbItem, Button, Row, 
 import { Link } from 'react-router-dom';
 import { LocalForm, Control, Errors } from "react-redux-form";
 import { Loading } from './LoadingComponent';
+import { baseUrl } from '../shared/baseUrl';
 
 
 
@@ -111,7 +112,7 @@ class CommentForm extends Component{
   return (
     <div className="col-md-5 m-1">
       <Card>
-        <CardImg top src={campsite.image} alt={campsite.name} />
+        <CardImg top src={baseUrl + campsite.image} alt={campsite.name} />
         <CardText>{campsite.description}</CardText>
       </Card>
     </div>

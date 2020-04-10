@@ -4,16 +4,6 @@ import { baseUrl } from '../shared/baseUrl';
 
 // The * allows you to get all the actions from the ActionType file
 
-export const addComment = (campsiteId, rating, author, text) => ({
-    type: ActionTypes.ADD_COMMENT,
-    payload: {
-        //In new es6 there is shorthand property names whitch alow you to pass the values like - {campsiteId, rating, author, text}
-        campsiteId: campsiteId,
-        rating: rating,
-        author: author,
-        text: text
-    }
-});
 
 export const fetchCampsites = () => dispatch => {
 
@@ -86,6 +76,50 @@ export const addComments = comments => ({
     type: ActionTypes.ADD_COMMENTS,
     payload: comments
 });
+
+export const addComment = comment => ({
+    type: ActionTypes.ADD_COMMENT,
+    payload: comment
+});
+
+
+export const postComment = (campsiteId, rating, author, text) => dispatch =>{
+    const newComment = {
+        //In new es6 there is shorthand property names whitch alow you to pass the values like - {campsiteId, rating, author, text}
+        campsiteId: campsiteId,
+        rating: rating,
+        author: author,
+        text: text
+    };
+    newComment.date = new Date().toISOString();
+
+    return fetch(baseUrl + 'comments', {
+        method: "POST",
+        body: JSON.stringify(newComment),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+    .then(response => {
+            if (response.ok) {
+                return response;
+            } else {
+                const error = new Error(`Error ${response.status}: ${response.statusText}`);
+                error.response = response;
+                throw error;
+            }
+        },
+        error => { throw error; }
+    )
+    .then(response => response.json())
+    .then(response => dispatch(addComment(response)))
+    .catch(error => {
+        console.log('post comment', error.message);
+        alert('Your comment could not be posted\nError: ' + error.message);
+    });
+};
+
+
 
 export const fetchPromotions = () => (dispatch) => {
     
